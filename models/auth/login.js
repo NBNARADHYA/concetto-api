@@ -1,6 +1,7 @@
 /* eslint-disable no-async-promise-executor */
 const jwt = require('jsonwebtoken');
 const isCorrect = require('./isCorrect');
+const { pool } = require('../db');
 
 /**
  *
@@ -18,15 +19,25 @@ function login({ email, password }) {
       return reject(error);
     }
     if (ans) {
-      jwt.sign(
-        { email },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '48h' },
-        (error, accessToken) => {
+      pool.query(
+        `SELECT admin FROM users WHERE email=?`,
+        [email],
+        (error, results) => {
           if (error) {
             return reject(error);
           }
-          return resolve({ email, access_token: accessToken });
+          let admin = Boolean(results[0].admin);
+          jwt.sign(
+            { email, admin },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '48h' },
+            (error, accessToken) => {
+              if (error) {
+                return reject(error);
+              }
+              return resolve({ email, access_token: accessToken });
+            }
+          );
         }
       );
     } else {

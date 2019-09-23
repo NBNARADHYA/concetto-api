@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `concetto` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `concetto`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: concetto
@@ -97,11 +95,14 @@ CREATE TABLE `teams` (
   `pass` varchar(255) NOT NULL,
   `event` varchar(255) NOT NULL,
   `leader` varchar(255) NOT NULL,
+  `member_count` int(11) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `fk_4_idx` (`leader`),
-  CONSTRAINT `fk_4` FOREIGN KEY (`leader`) REFERENCES `users` (`email`)
+  KEY `fk_7_idx` (`event`),
+  CONSTRAINT `fk_4` FOREIGN KEY (`leader`) REFERENCES `users` (`email`),
+  CONSTRAINT `fk_7` FOREIGN KEY (`event`) REFERENCES `events` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -186,4 +187,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-23 10:51:13
+-- Dump completed on 2019-09-23 18:37:39
