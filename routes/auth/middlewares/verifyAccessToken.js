@@ -26,7 +26,7 @@ function verifyAccessToken(req, res, next) {
           });
           return;
         }
-        req.body.user = decoded.email;
+        req.body.email = decoded.email;
         next();
       }
     );
