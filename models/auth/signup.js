@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
  * @param {String} param0.name
  * @param {String} param0.password
  * @param {Number} param0.phone
- * @param {Number} param0.college
+ * @param {String} param0.college
  * @return {Promise}
  *
  */
