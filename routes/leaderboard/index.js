@@ -36,3 +36,37 @@ router.get('/leaderboard', middleware.verifyAccessToken, (req, res) => {
       });
     });
 });
+
+router.get('/eventLeaderboard', middleware.verifyAccessToken, (req, res) => {
+  const eventname = req.params.eventname;
+  if (!eventname) {
+    return res.status(404).json({
+      success: false,
+      error: 'Not found',
+      results: null
+    });
+  }
+  leaderboard
+    .getEventLeaderboard()
+    .then(results => {
+      return res.status(200).json({
+        success: true,
+        error: null,
+        results
+      });
+    })
+    .catch(error => {
+      if (error === 'Some Error') {
+        return res.status(404).json({
+          success: false,
+          error,
+          results: null
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        error,
+        results: null
+      });
+    });
+});
