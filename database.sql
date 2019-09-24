@@ -62,11 +62,12 @@ CREATE TABLE `events` (
   `about` tinytext NOT NULL,
   `rules` mediumtext NOT NULL,
   `prizes` mediumtext NOT NULL,
-  `scores` tinytext NOT NULL,
+  `winners` mediumtext NOT NULL,
   `img` varchar(255) NOT NULL,
   `fee` int(11) DEFAULT '0',
   `start` timestamp NOT NULL,
   `end` timestamp NOT NULL,
+  `scores` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
@@ -131,6 +132,7 @@ CREATE TABLE `users` (
   `college` varchar(255) DEFAULT 'IIT-ISM Dhanbad',
   `admin` tinyint(4) DEFAULT '0',
   `name` varchar(255) NOT NULL,
+  `score` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
@@ -187,4 +189,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-23 18:37:39
+-- Dump completed on 2019-09-24 20:21:46
