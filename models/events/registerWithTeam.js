@@ -24,6 +24,7 @@ function registerWithTeam({ email, event, team, pass }) {
     }
     pool.getConnection((error, connection) => {
       if (error) {
+        connection.release();
         return reject(error);
       }
       connection.query(

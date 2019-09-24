@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `concetto` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `concetto`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: concetto
@@ -62,11 +64,12 @@ CREATE TABLE `events` (
   `about` tinytext NOT NULL,
   `rules` mediumtext NOT NULL,
   `prizes` mediumtext NOT NULL,
-  `scores` tinytext NOT NULL,
+  `winners` mediumtext NOT NULL,
   `img` varchar(255) NOT NULL,
   `fee` int(11) DEFAULT '0',
   `start` timestamp NOT NULL,
   `end` timestamp NOT NULL,
+  `scores` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
@@ -131,10 +134,12 @@ CREATE TABLE `users` (
   `college` varchar(255) DEFAULT 'IIT-ISM Dhanbad',
   `admin` tinyint(4) DEFAULT '0',
   `name` varchar(255) NOT NULL,
+  `score` int(11) DEFAULT '0',
+  `super_admin` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-23 18:37:39
+-- Dump completed on 2019-09-25 18:03:56

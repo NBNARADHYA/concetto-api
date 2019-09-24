@@ -14,7 +14,14 @@ function email(emaiId, subject, html) {
     subject,
     html
   };
-  sgMail.send(msg);
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Sent');
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
 
 module.exports = email;

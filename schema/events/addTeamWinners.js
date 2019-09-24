@@ -1,5 +1,5 @@
 module.exports = {
-  required: ['event', 'email', 'team', 'pass'],
+  required: ['event', 'email', 'first', 'second', 'third'],
   properties: {
     event: {
       type: 'string'
@@ -8,26 +8,30 @@ module.exports = {
       type: 'string',
       patter: '^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'
     },
-    team: {
+    first: {
       type: 'string'
     },
-    pass: {
-      type: 'string',
-      format: 'password'
+    second: {
+      type: 'string'
+    },
+    third: {
+      type: 'string'
     }
   },
   errorMessage: {
     required: {
       email: 'Email required',
       event: 'Event name required',
-      team: 'Team name requried',
-      pass: 'Team password required'
+      first: 'first required',
+      second: 'second required',
+      third: 'third required'
     },
     properties: {
       email: 'Email invalid',
       event: 'Event name invalid',
-      team: 'Team name invalid',
-      pass: 'Team password invalid'
+      first: 'Invalid first',
+      second: 'Invalid second',
+      third: 'Invalid third'
     },
     _: 'Invalid data'
   }

@@ -44,3 +44,5 @@ router.get('/:email', middleware.verifyAccessToken, (req, res) => {
       });
     });
 });
+
+module.exports = router;
