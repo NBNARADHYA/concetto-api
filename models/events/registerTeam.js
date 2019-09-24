@@ -56,6 +56,7 @@ function registerTeam({ email, event, team, pass }) {
       }
       connection.beginTransaction(error => {
         if (error) {
+          connection.release();
           return reject(error);
         }
         connection.query(
