@@ -16,9 +16,7 @@ function email(emaiId, subject, html) {
   };
   sgMail
     .send(msg)
-    .then(() => {
-      console.log('Sent');
-    })
+    .then(() => {})
     .catch(error => {
       console.log(error);
     });

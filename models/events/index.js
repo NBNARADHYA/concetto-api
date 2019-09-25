@@ -4,6 +4,7 @@ const registerTeam = require('./registerTeam');
 const getPhone = require('./getPhone');
 const addIndividualWinners = require('./addIndividualWinners');
 const addTeamWinners = require('./addTeamWinners');
+const addEvents = require('./addEvents');
 
 module.exports = {
   register,
@@ -11,5 +12,6 @@ module.exports = {
   registerTeam,
   getPhone,
   addIndividualWinners,
-  addTeamWinners
+  addTeamWinners,
+  addEvents
 };

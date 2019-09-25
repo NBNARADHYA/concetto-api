@@ -38,7 +38,8 @@ function addTeamWinners({ email, event, first, second, third }) {
               return reject('Unauthorized');
             }
             connection.query(
-              `SELECT scores FROM events WHERE name=?`,
+              `SELECT scores->>'$.first' first,scores->>'$.second' second,scores->>'$.third' third
+              FROM events WHERE name=?`,
               [event],
               (error, results) => {
                 if (error) {
@@ -47,16 +48,26 @@ function addTeamWinners({ email, event, first, second, third }) {
                     return reject(error);
                   });
                 }
-                let scores = JSON.parse(results[0].scores);
                 connection.query(
                   `UPDATE users
-                            SET score = CASE
-                                            WHEN email IN 
-                                            (SELECT user FROM users_events_teams_map WHERE team=?) THEN ?
-                                            WHEN email = IN
-                                            (SELECT user FROM users_events_teams_map WHERE team=?) THEN ?
-                                            ELSE ?`,
-                  [first, scores.first, second, scores.second, scores.third],
+                    SET score = CASE
+                                WHEN email IN 
+                                (SELECT user FROM users_events_teams_map WHERE team=?) THEN ? + score
+                                WHEN email = IN
+                                (SELECT user FROM users_events_teams_map WHERE team=?) THEN ? + score
+                                WHEN email = IN
+                                (SELECT user FROM users_events_teams_map WHERE team=?) THEN ? + score
+                                ELSE ? + score
+                                END`,
+                  [
+                    first,
+                    results[0].first,
+                    second,
+                    results[0].second,
+                    third,
+                    results[0].third,
+                    0
+                  ],
                   (error, results) => {
                     if (error) {
                       return connection.rollback(() => {

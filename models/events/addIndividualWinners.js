@@ -38,7 +38,8 @@ function addIndividualWinners({ email, event, first, second, third }) {
               return reject('Unauthorized');
             }
             connection.query(
-              `SELECT scores FROM events WHERE name=?`,
+              `SELECT scores->>'$.first' first,scores->>'$.second' second,scores->>'$.third' third
+              FROM events WHERE name=?`,
               [event],
               (error, results) => {
                 if (error) {
@@ -47,14 +48,23 @@ function addIndividualWinners({ email, event, first, second, third }) {
                     return reject(error);
                   });
                 }
-                let scores = JSON.parse(results[0].scores);
                 connection.query(
                   `UPDATE users
                     SET score = CASE
-                                    WHEN email = ? THEN ?
-                                    WHEN email = ? THEN ?
-                                    ELSE ?`,
-                  [first, scores.first, second, scores.second, scores.third],
+                                WHEN email = ? THEN ? + score
+                                WHEN email = ? THEN ? + score
+                                WHEN email = ? THEN ? + score
+                                ELSE ? + score
+                                END`,
+                  [
+                    first,
+                    results[0].first,
+                    second,
+                    results[0].second,
+                    third,
+                    results[0].third,
+                    0
+                  ],
                   (error, results) => {
                     if (error) {
                       return connection.rollback(() => {

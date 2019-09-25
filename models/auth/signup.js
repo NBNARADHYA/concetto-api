@@ -41,6 +41,7 @@ function signup({ name, email: emailId, password, phone, college }) {
                 if (error) {
                   return reject(error);
                 }
+                console.log(accessToken);
                 let subject = 'Email verification';
                 const PORT = process.env.PORT || 8080;
                 let html = `<p>Hello ${name} !</p>
