@@ -9,7 +9,8 @@ router.use(express.urlencoded({ extended: false }));
 const {
   registerEventSchema,
   registerTeamSchema,
-  registerWithTeamSchema
+  registerWithTeamSchema,
+  getPhoneSchema
 } = require('../../schema/events');
 
 /**
@@ -103,7 +104,7 @@ router.post(
         return res.status(200).json({
           success: true,
           error: null,
-          results: results
+          results
         });
       })
       .catch(error => {
@@ -115,3 +116,31 @@ router.post(
       });
   }
 );
+
+router.get('/phone', middleware.verifyAccessToken, (req, res) => {
+  let validate = ajv.compile(getPhoneSchema);
+  let valid = validate(req.body);
+  if (!valid) {
+    return res.status(400).json({
+      success: false,
+      error: sumErrors(validate.errors),
+      results: null
+    });
+  }
+  events
+    .getPhone(req.body.email)
+    .then(results => {
+      return res.status(200).json({
+        success: true,
+        error: null,
+        results
+      });
+    })
+    .catch(error => {
+      return res.status(400).json({
+        success: false,
+        error,
+        results: null
+      });
+    });
+});

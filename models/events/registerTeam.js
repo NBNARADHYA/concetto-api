@@ -1,5 +1,9 @@
 /* eslint-disable no-async-promise-executor */
+<<<<<<< HEAD
 const pool = require('../db');
+=======
+const { pool } = require('../db');
+>>>>>>> e112aa9905e020248fb1933189b4b8b300d0970a
 const isRegistered = require('./isRegistered');
 
 /**
