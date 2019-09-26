@@ -2,7 +2,7 @@ const events = require('../../models/events');
 const middleware = require('../auth/middlewares');
 const express = require('express');
 const router = express.Router();
-const ajv = require('../../models/db');
+const ajv = require('../../schema');
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
@@ -12,7 +12,8 @@ const {
   registerWithTeamSchema,
   getPhoneSchema,
   addTeamWinnersSchema,
-  addIndividualWinnersSchema
+  addIndividualWinnersSchema,
+  addEventsSchema
 } = require('../../schema/events');
 
 /**
@@ -221,3 +222,40 @@ router.post(
     }
   }
 );
+
+router.post('/add_events', middleware.verifyAccessToken, (req, res) => {
+  let validate = ajv.compile(addEventsSchema);
+  let valid = validate(req.body);
+  if (!valid) {
+    return res.status(400).json({
+      success: false,
+      error: sumErrors(validate.errors),
+      results: null
+    });
+  }
+  events
+    .addEvents(req.body)
+    .then(results => {
+      return res.status(200).json({
+        success: true,
+        error: null,
+        results
+      });
+    })
+    .catch(error => {
+      if (error == 'Unauthorized') {
+        return res.status(401).json({
+          success: false,
+          error,
+          results: null
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        error,
+        results: null
+      });
+    });
+});
+
+module.exports = router;

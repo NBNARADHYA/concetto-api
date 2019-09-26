@@ -34,18 +34,19 @@ function signup({ name, email: emailId, password, phone, college }) {
               return reject(error);
             }
             jwt.sign(
-              { email },
+              { email: emailId },
               process.env.ACCESS_TOKEN_SECRET,
-              { expiresIn: '72h' },
+              { expiresIn: '7 days' },
               (error, accessToken) => {
                 if (error) {
                   return reject(error);
                 }
+                console.log(accessToken);
                 let subject = 'Email verification';
                 const PORT = process.env.PORT || 8080;
                 let html = `<p>Hello ${name} !</p>
                           <p>Click on the following link to verify your email</p>
-                          <p>This link expires in 72 hours</p>
+                          <p>This link expires in 7 days</p>
                           <a href='http://${process.env.HOST_NAME}:${PORT}/auth/verify_email?access_token=${accessToken}'>Verify your email</a>`;
                 email(emailId, subject, html);
                 return resolve(

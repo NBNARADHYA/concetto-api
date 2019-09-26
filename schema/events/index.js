@@ -10,6 +10,7 @@ const registerWithTeamSchema = require('./registerWithTeam');
 const getPhoneSchema = require('./getPhone');
 const addIndividualWinnersSchema = require('./addIndividualWinners');
 const addTeamWinnersSchema = require('./addTeamWinners');
+const addEventsSchema = require('./addEvents');
 
 module.exports = {
   registerEventSchema,
@@ -17,5 +18,6 @@ module.exports = {
   registerWithTeamSchema,
   getPhoneSchema,
   addIndividualWinnersSchema,
-  addTeamWinnersSchema
+  addTeamWinnersSchema,
+  addEventsSchema
 };

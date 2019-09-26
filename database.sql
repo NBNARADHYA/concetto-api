@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `concetto` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `concetto`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: concetto
@@ -62,16 +64,17 @@ CREATE TABLE `events` (
   `about` tinytext NOT NULL,
   `rules` mediumtext NOT NULL,
   `prizes` mediumtext NOT NULL,
-  `winners` mediumtext NOT NULL,
+  `winners` json DEFAULT NULL,
   `img` varchar(255) NOT NULL,
   `fee` int(11) DEFAULT '0',
   `start` timestamp NOT NULL,
   `end` timestamp NOT NULL,
-  `scores` mediumtext NOT NULL,
+  `scores` json NOT NULL,
+  `club` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +107,7 @@ CREATE TABLE `teams` (
   KEY `fk_7_idx` (`event`),
   CONSTRAINT `fk_4` FOREIGN KEY (`leader`) REFERENCES `users` (`email`),
   CONSTRAINT `fk_7` FOREIGN KEY (`event`) REFERENCES `events` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,10 +136,11 @@ CREATE TABLE `users` (
   `admin` tinyint(4) DEFAULT '0',
   `name` varchar(255) NOT NULL,
   `score` int(11) DEFAULT '0',
+  `super_admin` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-24 20:21:46
+-- Dump completed on 2019-09-26 21:48:28
