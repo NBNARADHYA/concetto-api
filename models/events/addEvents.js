@@ -31,7 +31,7 @@ function addEvents({ events, email }) {
               SELECT super_admin FROM users WHERE email=?
               ))`;
           }
-          const {
+          let {
             name,
             is_team: isTeam,
             max_participents: maxParticipents,
@@ -47,6 +47,7 @@ function addEvents({ events, email }) {
             end,
             scores
           } = events[i];
+          scores = JSON.stringify(scores);
           vals.push(
             name,
             isTeam,

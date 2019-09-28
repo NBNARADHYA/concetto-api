@@ -30,7 +30,15 @@ module.exports = {
           fee: { type: 'number' },
           start: { type: 'string' },
           end: { type: 'string' },
-          scores: { type: 'string' },
+          scores: {
+            type: 'object',
+            required: ['first', 'second', 'third'],
+            properties: {
+              first: { type: 'number' },
+              second: { type: 'number' },
+              third: { type: 'number' }
+            }
+          },
           admins: {
             type: 'array',
             items: {

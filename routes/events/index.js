@@ -172,6 +172,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:event_name', (req, res) => {
+  if (!req.params.event_name) {
+    return res.status(400).json({
+      success: false,
+      error: 'event_name required',
+      results: null
+    });
+  }
   events
     .getEvent(req.params.event_name)
     .then(results => {
