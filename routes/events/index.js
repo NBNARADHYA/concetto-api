@@ -4,7 +4,11 @@ const express = require('express');
 const router = express.Router();
 const ajv = require('../../schema');
 router.use(express.json());
-router.use(express.urlencoded({ extended: false }));
+router.use(
+  express.urlencoded({
+    extended: false
+  })
+);
 
 const {
   registerEventSchema,
@@ -148,6 +152,43 @@ router.get('/phone', middleware.verifyAccessToken, (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+  events
+    .getEvents()
+    .then(results => {
+      return res.status(200).json({
+        success: true,
+        error: null,
+        results
+      });
+    })
+    .catch(error => {
+      return res.status(400).json({
+        success: false,
+        error,
+        results: null
+      });
+    });
+});
+
+router.get('/:event_name', (req, res) => {
+  events
+    .getEvent(req.params.event_name)
+    .then(results => {
+      return res.status(200).json({
+        success: true,
+        error: null,
+        results
+      });
+    })
+    .catch(error => {
+      return res.status(400).json({
+        success: false,
+        error,
+        results: null
+      });
+    });
+});
 router.post(
   '/:event_name/winners',
   middleware.verifyAccessToken,
