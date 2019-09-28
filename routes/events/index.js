@@ -4,9 +4,11 @@ const express = require('express');
 const router = express.Router();
 const ajv = require('../../schema');
 router.use(express.json());
-router.use(express.urlencoded({
-  extended: false
-}));
+router.use(
+  express.urlencoded({
+    extended: false
+  })
+);
 
 const {
   registerEventSchema,
@@ -274,15 +276,27 @@ router.post('/add_events', middleware.verifyAccessToken, (req, res) => {
   }
   events
     .addEvents(req.body)
-
-  if (error == 'Unauthorized') {
-    return res.status(401).json({
-      success: false,
-      error,
-      results: null
+    .then(results => {
+      return res.status(200).json({
+        success: true,
+        error: null,
+        results
+      });
+    })
+    .catch(error => {
+      if (error == 'Unauthorized') {
+        return res.status(401).json({
+          success: false,
+          error,
+          results: null
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        error,
+        results: null
+      });
     });
-  }
-
 });
 
 module.exports = router;

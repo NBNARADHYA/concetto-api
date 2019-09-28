@@ -1,4 +1,4 @@
-const {pool} = require('../db');
+const { pool } = require('../db');
 
 /**
  *
@@ -19,5 +19,5 @@ function getEvent(event) {
     );
   });
 }
- 
+
 module.exports = getEvent;
