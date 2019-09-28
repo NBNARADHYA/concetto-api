@@ -15,11 +15,18 @@ function register({ email, event }) {
           return reject('User already registered to the event');
         }
         pool.query(
-          `INSERT INTO users_events_teams_map (user,event) VALUES(?,?)`,
-          [email, event],
+          `INSERT INTO users_events_teams_map (user,event)
+          SELECT ?,? FROM dual WHERE (SELECT is_team FROM events WHERE name=?) = 0
+          `,
+          [email, event, event],
           (error, results) => {
             if (error) {
               return reject(error);
+            }
+            if (!results.affectedRows) {
+              return reject(
+                'Not an individual event. Join a team or create your own'
+              );
             }
             return resolve(results);
           }

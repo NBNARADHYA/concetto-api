@@ -2,7 +2,7 @@ const events = require('../../models/events');
 const middleware = require('../auth/middlewares');
 const express = require('express');
 const router = express.Router();
-const ajv = require('../../models/db');
+const ajv = require('../../schema');
 router.use(express.json());
 router.use(express.urlencoded({
   extended: false
@@ -12,7 +12,10 @@ const {
   registerEventSchema,
   registerTeamSchema,
   registerWithTeamSchema,
-  getPhoneSchema
+  getPhoneSchema,
+  addTeamWinnersSchema,
+  addIndividualWinnersSchema,
+  addEventsSchema
 } = require('../../schema/events');
 
 /**
@@ -183,6 +186,103 @@ router.get('/:event_name', (req, res) => {
         results: null
       });
     });
+});
+router.post(
+  '/:event_name/winners',
+  middleware.verifyAccessToken,
+  (req, res) => {
+    if (!req.params.event_name) {
+      return res.status(400).json({
+        success: false,
+        error: 'Event name required',
+        results: null
+      });
+    }
+    req.body.event = req.params.event_name;
+    if (req.query.team) {
+      let validate = ajv.compile(addTeamWinnersSchema);
+      let valid = validate(req.body);
+      if (!valid) {
+        return res.status(400).json({
+          success: false,
+          error: sumErrors(validate.errors),
+          results: null
+        });
+      }
+      events
+        .addTeamWinners(req.body)
+        .then(results => {
+          return res.status(200).json({
+            success: true,
+            error: null,
+            results
+          });
+        })
+        .catch(error => {
+          return res.status(400).json({
+            success: false,
+            error,
+            results: null
+          });
+        });
+    } else {
+      let validate = ajv.compile(addIndividualWinnersSchema);
+      let valid = validate(req.body);
+      if (!valid) {
+        return res.status(400).json({
+          success: false,
+          error: sumErrors(validate.errors),
+          results: null
+        });
+      }
+      events
+        .addIndividualWinners(req.body)
+        .then(results => {
+          return res.status(200).json({
+            success: true,
+            error: null,
+            results
+          });
+        })
+        .catch(error => {
+          if (error == 'Unauthorized') {
+            return res.status(401).json({
+              success: false,
+              error,
+              results: null
+            });
+          }
+          return res.status(400).json({
+            success: false,
+            error,
+            results: null
+          });
+        });
+    }
+  }
+);
+
+router.post('/add_events', middleware.verifyAccessToken, (req, res) => {
+  let validate = ajv.compile(addEventsSchema);
+  let valid = validate(req.body);
+  if (!valid) {
+    return res.status(400).json({
+      success: false,
+      error: sumErrors(validate.errors),
+      results: null
+    });
+  }
+  events
+    .addEvents(req.body)
+
+  if (error == 'Unauthorized') {
+    return res.status(401).json({
+      success: false,
+      error,
+      results: null
+    });
+  }
+
 });
 
 module.exports = router;

@@ -33,7 +33,7 @@ function verifyAccessToken(req, res, next) {
   } else {
     res.status(401).json({
       success: false,
-      error: 'Access code not included in the header of the request',
+      error: 'access_token not included in the header of the request',
       results: null
     });
     return;

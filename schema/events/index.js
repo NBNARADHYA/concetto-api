@@ -8,10 +8,16 @@ const registerEventSchema = require('./registerEvent');
 const registerTeamSchema = require('./registerTeam');
 const registerWithTeamSchema = require('./registerWithTeam');
 const getPhoneSchema = require('./getPhone');
+const addIndividualWinnersSchema = require('./addIndividualWinners');
+const addTeamWinnersSchema = require('./addTeamWinners');
+const addEventsSchema = require('./addEvents');
 
 module.exports = {
   registerEventSchema,
   registerTeamSchema,
   registerWithTeamSchema,
-  getPhoneSchema
+  getPhoneSchema,
+  addIndividualWinnersSchema,
+  addTeamWinnersSchema,
+  addEventsSchema
 };

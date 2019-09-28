@@ -56,10 +56,12 @@ function registerTeam({ email, event, team, pass }) {
       }
       connection.beginTransaction(error => {
         if (error) {
+          connection.release();
           return reject(error);
         }
         connection.query(
-          `INSERT INTO teams (name,leader,event,pass) VALUES(?,?,?,?) WHERE (SELECT is_team FROM events WHERE name=?)`,
+          `INSERT INTO teams (name,leader,event,pass) 
+          SELECT ?,?,?,? FROM dual WHERE(SELECT is_team FROM events WHERE name=?)`,
           [team, email, event, pass, event],
           (error, results) => {
             if (error) {
@@ -68,7 +70,7 @@ function registerTeam({ email, event, team, pass }) {
                 return reject(error);
               });
             }
-            if (!results.changedRows) {
+            if (!results.affectedRows) {
               return connection.rollback(() => {
                 connection.release();
                 return reject('Not a team event');
