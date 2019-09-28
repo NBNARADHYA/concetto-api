@@ -8,10 +8,12 @@ const loginSchema = require('./login');
 const signupSchema = require('./signup');
 const updatePasswordSchema = require('./updatePassword');
 const verifyEmailSchema = require('./verifyEmail');
+const makeSuperAdminSchema = require('./makeSuperAdmin');
 
 module.exports = {
   loginSchema,
   signupSchema,
   updatePasswordSchema,
-  verifyEmailSchema
+  verifyEmailSchema,
+  makeSuperAdminSchema
 };

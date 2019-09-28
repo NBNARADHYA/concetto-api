@@ -10,7 +10,8 @@ const {
   signupSchema,
   loginSchema,
   updatePasswordSchema,
-  verifyEmailSchema
+  verifyEmailSchema,
+  makeSuperAdminSchema
 } = require('../../schema/auth');
 
 /**
@@ -135,6 +136,42 @@ router.post('/update_password', middleware.verifyAccessToken, (req, res) => {
     })
     .catch(error => {
       if (error === 'Password incorrect') {
+        return res.status(401).json({
+          success: false,
+          error,
+          results: null
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        error,
+        results: null
+      });
+    });
+});
+
+router.post('/admin', middleware.verifyAccessToken, (req, res) => {
+  let validate = ajv.compile(makeSuperAdminSchema);
+  let valid = validate(req.body);
+  if (!valid) {
+    return res.status(400).json({
+      success: false,
+      error: sumErrors(validate.errors),
+      results: null
+    });
+  }
+
+  auth
+    .makeSuperAdmin(req.body)
+    .then(results => {
+      return res.status(200).json({
+        success: true,
+        error: null,
+        results
+      });
+    })
+    .catch(error => {
+      if (error === 'Unauthorized') {
         return res.status(401).json({
           success: false,
           error,
