@@ -1,4 +1,4 @@
-const pool = require('../db');
+const {pool} = require('../db');
 
 /**
  *
@@ -14,10 +14,10 @@ function getEvent(event) {
         if (error) {
           return reject(error);
         }
-        return resolve(Boolean(results[0].count));
+        return resolve(results);
       }
     );
   });
 }
-
+ 
 module.exports = getEvent;

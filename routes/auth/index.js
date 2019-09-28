@@ -11,7 +11,7 @@ const {
   loginSchema,
   updatePasswordSchema,
   verifyEmailSchema
-} = require('../../../schema/auth');
+} = require('../../schema/auth');
 
 /**
  *
