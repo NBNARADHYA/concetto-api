@@ -196,6 +196,7 @@ router.get('/:event_name', (req, res) => {
       });
     });
 });
+
 router.post(
   '/:event_name/winners',
   middleware.verifyAccessToken,

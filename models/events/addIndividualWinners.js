@@ -24,8 +24,8 @@ function addIndividualWinners({ email, event, first, second, third }) {
         let winners = JSON.stringify({ first, second, third });
         connection.query(
           `UPDATE events SET winners=? WHERE name=? AND 
-          name=(SELECT event FROM admin_events_map WHERE user=?)`,
-          [winners, event, email],
+          name=(SELECT event FROM admin_events_map WHERE user=? AND event=?)`,
+          [winners, event, email, event],
           (error, results) => {
             if (error) {
               return connection.rollback(() => {
