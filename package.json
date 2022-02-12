@@ -19,7 +19,7 @@
   "homepage": "https://github.com/NBNARADHYA/concetto-api#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "ajv-errors": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
